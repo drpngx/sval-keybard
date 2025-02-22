@@ -77,6 +77,21 @@ const QMK_SETTINGS = {
         { "type": "integer", "title": "Maximum number of scroll steps per scroll action", "qsid": 16, "min": 0, "max": 1000, "width": 2 },
         { "type": "integer", "title": "Time until maximum scroll speed is reached", "qsid": 17, "min": 0, "max": 1000, "width": 2 }
       ]
+    },
+    {
+        "name": "Sval",
+        "_comment": "Custom settings for Svalboard. Must be sync'd with qmk_firmware/keyboards/svalboard/user_settings.c",
+        "fields": [
+            { "type": "boolean", "title": "Achordion mode", "qsid": 500, "width": 1, "bit": 0 },
+            { "type": "boolean", "title": "Automouse", "qsid": 501, "width": 1, "bit": 0 },
+            { "type": "boolean", "title": "Left mouse scroll", "qsid": 502, "width": 1, "bit": 0 },
+            { "type": "boolean", "title": "Right mouse scroll", "qsid": 502, "width": 1, "bit": 1 },
+            { "type": "integer", "title": "Automouse timeout index", "qsid": 503, "min": 0, "max": 4, "width": 1 },
+            { "type": "integer", "title": "Automouse timeout value (ms): 0", "qsid": 504, "min": 0, "max": 60000, "width": 2 },
+            { "type": "integer", "title": "Automouse timeout value (ms): 1", "qsid": 505, "min": 0, "max": 60000, "width": 2 },
+            { "type": "integer", "title": "Automouse timeout value (ms): 2", "qsid": 506, "min": 0, "max": 60000, "width": 2 },
+            { "type": "integer", "title": "Automouse timeout value (ms): 3", "qsid": 507, "min": 0, "max": 60000, "width": 2 }
+        ]
     }
   ]
 };
