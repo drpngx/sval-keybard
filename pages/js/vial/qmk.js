@@ -5,7 +5,7 @@
 //  QMK Settings are weird. This is how I understand it:
 //
 //    - We get a JSON file, here as QMK_SETTINGS.
-//    - The JSON file defines which QSIDs (QMK Setting IDs) it supports. 
+//    - The JSON file defines which QSIDs (QMK Setting IDs) it supports.
 //        * (QSID starts with 1)
 //    - The JSON file lists all, regardless of whether or not the KB supports
 //      it.
@@ -36,7 +36,7 @@ Vial.qmk = (function() {
         }
         offset += 16
       }
-      
+
       // Parse out the widths for each QSID value.
       // No width = B (byte). Width 2 = H (short). Width 4 = I (int).
       const qsid_unpacks = {};
@@ -57,7 +57,7 @@ Vial.qmk = (function() {
       for (const qsid of Object.keys(qsid_unpacks)) {
         // Don't forget the ignored byte.
         const unpack = 'B' + qsid_unpacks[qsid];
-        val = await Vial.USB.sendVial(Vial.USB.CMD_VIAL_QMK_SETTINGS_GET, [qsid], {unpack: unpack});
+        val = await Vial.USB.sendVial(Vial.USB.CMD_VIAL_QMK_SETTINGS_GET, [LE16(qsid)], {unpack: unpack});
         settings[qsid] = val[1];
       }
       kbinfo.settings = settings;
