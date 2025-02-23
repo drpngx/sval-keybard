@@ -54,11 +54,21 @@ Vial.qmk = (function() {
 
       // We now have our supported QSIDs. 1...21, for my sval. Fetch them.
       const settings = {};
-      for (const qsid of Object.keys(qsid_unpacks)) {
-        // Don't forget the ignored byte.
-        const unpack = 'B' + qsid_unpacks[qsid];
-        val = await Vial.USB.sendVial(Vial.USB.CMD_VIAL_QMK_SETTINGS_GET, [LE16(qsid)], {unpack: unpack});
-        settings[qsid] = val[1];
+        for (const qsid of Object.keys(qsid_unpacks)) {
+            // In Vial, the entries are hidden from the UI if they are not supported.
+            // The whole tab is hidden if none of its entries are supported.
+            // That means hiding in kbui/qmk.js:renderAllTabs.
+            if (qsid in supported) {
+                // Don't forget the ignored byte.
+                const unpack = 'B' + qsid_unpacks[qsid];
+                // qsid is a uint16. USB.send will ultimately use UIntArray8, so we encode the
+                // two-bytes value here.
+                let q0 = qsid & 0xFF;
+                let q1 = (qsid >> 8) & 0xFFF;
+                val = await Vial.USB.sendVial(Vial.USB.CMD_VIAL_QMK_SETTINGS_GET, [q0, q1], {unpack: unpack});
+                console.log('Read qsid', qsid, 'val', val)
+                settings[qsid] = val[1];
+            }
       }
       kbinfo.settings = settings;
     },
